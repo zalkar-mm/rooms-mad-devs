@@ -137,6 +137,19 @@ axios-клиент (`src/shared/api/axios-client.ts`). Экраны получа
 `src/entities/*/api`. Mock отключается `VITE_API_MOCK=false`: MSW не запускается, служебная панель не
 монтируется. Правок в интерфейсе не нужно.
 
+## Деплой
+
+Сайт на Netlify работает на mock API в браузере (MSW): сервера API нет, запросы к `/api/*` перехватывает
+service worker. Переменные сборки заданы в [`netlify.toml`](./netlify.toml) (`VITE_API_MOCK=true`,
+`VITE_API_BASE_URL=/api`): Vite встраивает их при сборке, а `.env` в репозиторий не попадает.
+
+- Жёсткая перезагрузка (Shift+Reload) обходит service worker, и запросы уходят на Netlify (`404`).
+  Перезагружайте обычным способом.
+- Если воркер не стартовал, в консоли будет `[MSW] Failed to start mock API worker`, а на экране —
+  ошибка загрузки.
+- Переход на реальный API: в `netlify.toml` поставить `VITE_API_MOCK = "false"` и адрес сервера в
+  `VITE_API_BASE_URL`, затем пересобрать сайт.
+
 ## Ограничения mock API
 
 - Данные в `localStorage` этого браузера: общие для вкладок и переживают перезагрузку (D18), в другом
