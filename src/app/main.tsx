@@ -24,4 +24,9 @@ function renderApp() {
   );
 }
 
-void enableMocks().then(renderApp);
+// Воркер не стартовал — запросы уходят в сеть и экраны показывают свою ошибку загрузки настроек.
+void enableMocks()
+  .catch((error: unknown) => {
+    console.error("[MSW] Failed to start mock API worker", error);
+  })
+  .then(renderApp);
