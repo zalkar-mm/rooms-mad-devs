@@ -1,0 +1,14 @@
+dist
+dev-dist
+node_modules
+package-lock.json
+public/mockServiceWorker.js
+src/shared/ui/shadcn
+
+# Документы проекта форматирует автор, не prettier
+*.md
+*.pdf
+.claude
+
+# Правится только по отдельной задаче; две строки длиннее 120 — оставлены как есть
+eslint.config.js

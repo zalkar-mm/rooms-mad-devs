@@ -1,0 +1,46 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@fontsource-variable/commissioner";
+@import "./styles/tokens.css";
+
+/*
+ * hover и focus-visible дополнительно срабатывают от data-state на обёртке: так страница /ui-kit
+ * показывает эти состояния принудительно, без отдельных веток кода в компонентах (docs/ui.md §4).
+ */
+@custom-variant hover {
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+
+  :where([data-state="hover"]) & {
+    @slot;
+  }
+}
+
+@custom-variant focus-visible {
+  &:focus-visible {
+    @slot;
+  }
+
+  /* Без :where: специфичность как у настоящего :focus-visible, иначе outline-none примитивов перебивает кольцо. */
+  [data-state="focus"] & {
+    @slot;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-grey-20;
+  }
+
+  html {
+    @apply bg-grey-10 font-sans text-body text-grey-100;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}

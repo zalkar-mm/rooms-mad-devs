@@ -1,0 +1,122 @@
+/*
+ * Токены UI kit (docs/ui.md §1). Значения — промпт этапа UI kit, раздел «Токены».
+ * Других цветов, размеров текста, радиусов и теней в проекте нет.
+ */
+
+@theme {
+  /* Стандартная палитра Tailwind отключена: доступны только цвета кита. */
+  --color-*: initial;
+  --color-accent: #0067d6;
+  --color-accent-hover: #0053ad;
+  --color-accent-subtle: #e5f1ff;
+  --color-on-accent: #ffffff;
+  --color-danger: #dc2626;
+  --color-danger-subtle: #fee2e2;
+  --color-success: #15803d;
+  --color-success-subtle: #dcfce7;
+  --color-grey-10: #f7f7f7;
+  --color-grey-20: #e3e7ed;
+  --color-grey-40: #9ca3af;
+  --color-grey-50: #6b7280;
+  --color-grey-100: #171819;
+  --color-white: #ffffff;
+
+  --font-sans: "Commissioner Variable", system-ui, sans-serif;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.3;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.3;
+  --text-body: 1rem;
+  --text-body--line-height: 1.3;
+  --text-title: 1.25rem;
+  --text-title--line-height: 1.3;
+  --text-title--font-weight: 600;
+
+  --radius-s: 4px;
+  --radius-m: 8px;
+
+  --shadow-*: initial;
+  --shadow-1: 0 2px 6px rgb(194 194 194 / 0.25);
+  --shadow-2: 0 2px 6px rgb(0 0 0 / 0.2);
+
+  /* Опорные ширины SPEC §11: 768 (md, стандартный) и 1200. */
+  --breakpoint-xl: 75rem;
+
+  --animate-shimmer: shimmer 1.2s ease-in-out infinite;
+
+  @keyframes shimmer {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+}
+
+/*
+ * Состояния Radix (data-state) как варианты. `:where` не добавляет специфичности: иначе
+ * `data-open:animate-in` перебивал бы `motion-reduce:animate-none`.
+ */
+@custom-variant data-open {
+  &:where([data-state="open"]) {
+    @slot;
+  }
+}
+
+@custom-variant data-closed {
+  &:where([data-state="closed"]) {
+    @slot;
+  }
+}
+
+@custom-variant data-checked {
+  &:where([data-state="checked"]) {
+    @slot;
+  }
+}
+
+@custom-variant data-unchecked {
+  &:where([data-state="unchecked"]) {
+    @slot;
+  }
+}
+
+@custom-variant data-disabled {
+  &:where([data-disabled]:not([data-disabled="false"])) {
+    @slot;
+  }
+}
+
+/* Единое кольцо фокуса; внутри ячеек сетки — со смещением внутрь. */
+@utility focus-ring {
+  outline-style: none;
+
+  @variant focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+@utility focus-ring-inset {
+  outline-style: none;
+
+  @variant focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: -2px;
+  }
+}
+
+/* Штриховка недоступного: 45°, линии grey-20 на grey-10, шаг 8 px. Единственный узор в проекте. */
+@utility bg-hatch {
+  background-color: var(--color-grey-10);
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--color-grey-20) 0,
+    var(--color-grey-20) 1px,
+    transparent 1px,
+    transparent 8px
+  );
+}
